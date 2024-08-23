@@ -3,6 +3,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import pluxeeLogo from "@/public/images/pluxeeLogo.png";
+import { Suspense } from "react";
 
 const ResultPage = () => {
   const searchParams = useSearchParams();
@@ -23,7 +24,7 @@ const ResultPage = () => {
       opacity: 1,
       y: 0,
       transition: {
-        delay: i * 0.5,
+        delay: i * 0.3,
       },
     }),
   };
@@ -114,4 +115,10 @@ const ResultPage = () => {
   );
 };
 
-export default ResultPage;
+const ResultPageWrapper = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <ResultPage />
+  </Suspense>
+);
+
+export default ResultPageWrapper;
