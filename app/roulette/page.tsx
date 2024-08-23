@@ -14,6 +14,7 @@ interface Prize {
   name: string;
   quantity: number;
   color: string;
+  isActive: boolean;
 }
 
 const sortPrizes = (prizes: Prize[]) => {
@@ -45,7 +46,8 @@ const RoulettePage = () => {
       const { data, error } = await supabase
         .from("prizes")
         .select("*")
-        .gt("quantity", 0); // Fetch only prizes with quantity greater than 0
+        .gt("quantity", 0) // Fetch only prizes with quantity greater than 0
+        .eq("isActive", true); // Fetch only active prizes
       if (error) {
         console.error("Error fetching prizes:", error);
       } else {
