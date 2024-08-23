@@ -79,9 +79,9 @@ const ResultPage = () => {
       {prize && icon && color && (
         <motion.div
           className="flex flex-col items-center"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.5 }}
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 1.2 }} // Adiciona um atraso de 2 segundos
         >
           <div
             className="flex flex-col items-center justify-center rounded-full"
