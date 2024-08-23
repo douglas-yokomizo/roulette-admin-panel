@@ -1,17 +1,21 @@
 "use client";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import pluxeeLogo from "@/public/images/pluxeeLogo.png";
+import Link from "next/link";
 
 export default function Home() {
   const router = useRouter();
+
   return (
-    <div className="flex flex-col items-center justify-center h-screen w-full">
-      <h1 className="text-5xl mb-10">Pluxee</h1>
-      <button
-        onClick={() => router.push("/roulette")}
-        className="bg-green-500 px-8 py-4 rounded-xl text-white"
-      >
-        Roleta
-      </button>
-    </div>
+    <Link
+      className="flex flex-col bg-prize items-center h-screen w-full bg-cover bg-center bg-no-repeat cursor-pointer"
+      href={"/roulette"}
+    >
+      <Image src={pluxeeLogo} alt="Logo Pluxee" className="mt-[600px]" />
+      <h1 className="text-4xl animate-pulse text-blue-950 mt-20">
+        Toque para iniciar
+      </h1>
+    </Link>
   );
 }

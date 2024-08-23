@@ -6,6 +6,7 @@ import styles from "./roulette.module.css";
 import seta from "../../public/seta.png";
 import pluxeLogo from "@/public/images/pluxeeLogo.png";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 interface Prize {
   id: number;
@@ -197,11 +198,20 @@ const RoulettePage = () => {
         if (prizeName === "Fone de Ouvido 2") {
           prizeName = "Fone de Ouvido";
         }
+        const prizeId = prizes[prizeIndex].id;
+        const prizeIcon = prizes[prizeIndex].icon;
+        const prizeColor = prizes[prizeIndex].color;
         setSelectedPrize(prizeName);
         updatePrizeQuantity(prizes[prizeIndex].id);
 
         // Navega para a página de resultado com o prêmio sorteado na URL
-        router.push(`/result?prize=${encodeURIComponent(prizeName)}`);
+        router.push(
+          `/result?prize=${encodeURIComponent(
+            prizeName
+          )}&icon=${encodeURIComponent(prizeIcon)}&color=${encodeURIComponent(
+            prizeColor
+          )}&id=${encodeURIComponent(prizeId)}`
+        );
       }
     };
 
@@ -235,18 +245,39 @@ const RoulettePage = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col items-center bg-roulette bg-cover bg-center bg-no-repeat">
-      <Image
-        src={pluxeLogo}
-        width={400}
-        alt="Logo Pluxee"
-        className="mt-28 mb-20"
-      />
-      <p className="text-6xl text-center font-bold font-tt-travels text-blue-950">
+    <motion.div
+      className="h-screen flex flex-col items-center bg-roulette bg-cover bg-center bg-no-repeat"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
+      <motion.div
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ type: "spring", stiffness: 50 }}
+      >
+        <Image src={pluxeLogo} alt="Logo Pluxee" className="mt-28 mb-20" />
+      </motion.div>
+      <motion.p
+        className="text-6xl text-center font-bold font-tt-travels text-blue-950"
+        initial={{ scale: 0.8 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         Aproveite <br /> nosso mundo de <br /> oportunidades!
-      </p>
-      <div className={styles.container}>
-        <div className={styles.rouletteWrapper}>
+      </motion.p>
+      <motion.div
+        className={styles.container}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5, duration: 1 }}
+      >
+        <motion.div
+          className={styles.rouletteWrapper}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <canvas
             ref={canvasRef}
             width={600}
@@ -254,10 +285,11 @@ const RoulettePage = () => {
             className={styles.roulette}
             onClick={handleClick}
           />
+
           <Image src={seta} alt="Seta" className={styles.seta} />
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 
