@@ -18,8 +18,8 @@ interface Prize {
 const sortPrizes = (prizes: Prize[]) => {
   const order = [
     "Caderno",
-    "Fone de ouvido",
-    "Fone de ouvido",
+    "Fone de Ouvido",
+    "Fone de Ouvido 2",
     "Viseira",
     "Copo Térmico",
     "Cooler",
@@ -81,8 +81,6 @@ const RoulettePage = () => {
       ctx.translate(radius, radius);
       ctx.rotate((rotation * Math.PI) / 180 - Math.PI / 2); // rotaciona e ajusta o ângulo inicial
 
-      let foneDeOuvidoCount = 0;
-
       prizes.forEach((prize, index) => {
         const startAngle = index * angleStep;
         const endAngle = startAngle + angleStep;
@@ -108,21 +106,20 @@ const RoulettePage = () => {
         ctx.drawImage(img, -30, -30, 60, 60); // ajuste a posição e o tamanho do ícone
 
         // Define a cor da fonte
-        if (prize.name === "Fone de ouvido") {
-          foneDeOuvidoCount++;
-          if (foneDeOuvidoCount === 2) {
-            ctx.fillStyle = "#FFF"; // branco para o segundo "Fone de ouvido"
-          } else {
-            ctx.fillStyle = "#172554 "; // preto para o primeiro "Fone de ouvido"
-          }
+        if (prize.name === "Fone de Ouvido 2") {
+          ctx.fillStyle = "#FFF"; // branco para "Fone de Ouvido 2"
         } else if (prize.name === "Cooler") {
           ctx.fillStyle = "#FFF"; // branco para "Cooler"
         } else {
-          ctx.fillStyle = "#172554 "; // preto para os outros prêmios
+          ctx.fillStyle = "#172554"; // preto para os outros prêmios
         }
 
+        // Substitui "Fone de Ouvido 2" por "Fone de Ouvido"
+        const displayName =
+          prize.name === "Fone de Ouvido 2" ? "Fone de Ouvido" : prize.name;
+
         // quebra o nome em duas linhas se tiver mais de duas palavras
-        const words = prize.name.split(" ");
+        const words = displayName.split(" ");
         const line1 = words.slice(0, Math.ceil(words.length / 2)).join(" ");
         const line2 = words.slice(Math.ceil(words.length / 2)).join(" ");
         ctx.fillText(line1, 0, 50); // ajuste a posição da primeira linha do nome
@@ -195,7 +192,11 @@ const RoulettePage = () => {
           prizes.length;
         setRotation(finalRotation);
         setIsSpinning(false);
-        const prizeName = prizes[prizeIndex].name;
+        let prizeName = prizes[prizeIndex].name;
+
+        if (prizeName === "Fone de Ouvido 2") {
+          prizeName = "Fone de Ouvido";
+        }
         setSelectedPrize(prizeName);
         updatePrizeQuantity(prizes[prizeIndex].id);
 
