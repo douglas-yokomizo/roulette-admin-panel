@@ -5,6 +5,7 @@ import { supabase } from "../utils/supabase/client";
 import styles from "./roulette.module.css";
 import seta from "../../public/seta.png";
 import pluxeLogo from "@/public/images/pluxeeLogo.png";
+import { useRouter } from "next/navigation";
 
 interface Prize {
   id: number;
@@ -31,6 +32,7 @@ const sortPrizes = (prizes: Prize[]) => {
 };
 
 const RoulettePage = () => {
+  const router = useRouter();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [rotation, setRotation] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
@@ -39,7 +41,10 @@ const RoulettePage = () => {
 
   useEffect(() => {
     const fetchPrizes = async () => {
-      const { data, error } = await supabase.from("prizes").select("*");
+      const { data, error } = await supabase
+        .from("prizes")
+        .select("*")
+        .gt("quantity", 0); // Fetch only prizes with quantity greater than 0
       if (error) {
         console.error("Error fetching prizes:", error);
       } else {
@@ -105,7 +110,7 @@ const RoulettePage = () => {
         // Define a cor da fonte
         if (prize.name === "Fone de ouvido") {
           foneDeOuvidoCount++;
-          if (foneDeOuvidoCount === 1) {
+          if (foneDeOuvidoCount === 2) {
             ctx.fillStyle = "#FFF"; // branco para o segundo "Fone de ouvido"
           } else {
             ctx.fillStyle = "#172554 "; // preto para o primeiro "Fone de ouvido"
@@ -190,8 +195,12 @@ const RoulettePage = () => {
           prizes.length;
         setRotation(finalRotation);
         setIsSpinning(false);
-        setSelectedPrize(prizes[prizeIndex].name);
+        const prizeName = prizes[prizeIndex].name;
+        setSelectedPrize(prizeName);
         updatePrizeQuantity(prizes[prizeIndex].id);
+
+        // Navega para a página de resultado com o prêmio sorteado na URL
+        router.push(`/result?prize=${encodeURIComponent(prizeName)}`);
       }
     };
 
