@@ -9,9 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        roulette: 'url("../public/images/bgRoulette.png")',
+        prize: 'url("../public/images/bgPrize.png")',
+      },
+      fontFamily: {
+        "tt-travels": ["TTTravels-DemiBold", "sans-serif"],
       },
     },
   },

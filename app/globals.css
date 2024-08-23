@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "TTTravels-DemiBold";
+  src: url("../public/fonts/TTTravels-DemiBold.ttf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+}

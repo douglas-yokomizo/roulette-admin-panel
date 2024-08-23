@@ -1,9 +1,10 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
-import styles from "./roulette.module.css";
 import Image from "next/image";
-import seta from "../../public/seta.png";
 import { supabase } from "../utils/supabase/client";
+import styles from "./roulette.module.css";
+import seta from "../../public/seta.png";
+import pluxeLogo from "@/public/images/pluxeeLogo.png";
 
 interface Prize {
   id: number;
@@ -92,7 +93,8 @@ const RoulettePage = () => {
         ctx.save();
         ctx.rotate(startAngle + angleStep / 2);
         ctx.textAlign = "center";
-        ctx.font = "20px Arial"; // aumente o tamanho da fonte
+        ctx.font = "20px TTTravels-DemiBold"; // aumente o tamanho da fonte
+        ctx.fillStyle = "#172554";
         ctx.translate(radius * 0.7, 0); // ajuste a posição
         ctx.rotate(Math.PI / 2); // rotaciona o texto para ficar na posição correta
 
@@ -103,15 +105,15 @@ const RoulettePage = () => {
         // Define a cor da fonte
         if (prize.name === "Fone de ouvido") {
           foneDeOuvidoCount++;
-          if (foneDeOuvidoCount === 2) {
+          if (foneDeOuvidoCount === 1) {
             ctx.fillStyle = "#FFF"; // branco para o segundo "Fone de ouvido"
           } else {
-            ctx.fillStyle = "#000"; // preto para o primeiro "Fone de ouvido"
+            ctx.fillStyle = "#172554 "; // preto para o primeiro "Fone de ouvido"
           }
         } else if (prize.name === "Cooler") {
           ctx.fillStyle = "#FFF"; // branco para "Cooler"
         } else {
-          ctx.fillStyle = "#000"; // preto para os outros prêmios
+          ctx.fillStyle = "#172554 "; // preto para os outros prêmios
         }
 
         // quebra o nome em duas linhas se tiver mais de duas palavras
@@ -130,6 +132,25 @@ const RoulettePage = () => {
       ctx.beginPath();
       ctx.arc(0, 0, radius, 0, 2 * Math.PI);
       ctx.lineWidth = 60; // ajuste a espessura do contorno
+      ctx.strokeStyle = "#000"; // cor do contorno
+      ctx.stroke();
+
+      // Desenha o círculo preto no meio com sombra
+      ctx.save();
+      ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+      ctx.shadowBlur = 10;
+      ctx.shadowOffsetX = -10;
+      ctx.shadowOffsetY = 10;
+      ctx.beginPath();
+      ctx.arc(0, 0, radius * 0.1, 0, 2 * Math.PI); // ajuste o tamanho do círculo
+      ctx.fillStyle = "#292929"; // cor do círculo
+      ctx.fill();
+      ctx.restore();
+
+      // Desenha o contorno fino ao redor do círculo
+      ctx.beginPath();
+      ctx.arc(0, 0, radius * 0.1 + 3, 0, 2 * Math.PI); // contorno a 1px de distância
+      ctx.lineWidth = 0.5; // espessura do contorno
       ctx.strokeStyle = "#000"; // cor do contorno
       ctx.stroke();
 
@@ -204,22 +225,28 @@ const RoulettePage = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.rouletteWrapper}>
-        <canvas
-          ref={canvasRef}
-          width={600}
-          height={600}
-          className={styles.roulette}
-          onClick={handleClick}
-        />
-        <Image src={seta} alt="Seta" className={styles.seta} />
-      </div>
-      {selectedPrize && (
-        <div className={styles.selectedPrize}>
-          <h2>Prêmio Sorteado: {selectedPrize}</h2>
+    <div className="h-screen flex flex-col items-center bg-roulette bg-cover bg-center bg-no-repeat">
+      <Image
+        src={pluxeLogo}
+        width={400}
+        alt="Logo Pluxee"
+        className="mt-28 mb-20"
+      />
+      <p className="text-6xl text-center font-bold font-tt-travels text-blue-950">
+        Aproveite <br /> nosso mundo de <br /> oportunidades!
+      </p>
+      <div className={styles.container}>
+        <div className={styles.rouletteWrapper}>
+          <canvas
+            ref={canvasRef}
+            width={600}
+            height={600}
+            className={styles.roulette}
+            onClick={handleClick}
+          />
+          <Image src={seta} alt="Seta" className={styles.seta} />
         </div>
-      )}
+      </div>
     </div>
   );
 };
