@@ -13,7 +13,7 @@ export default function Home() {
 
   return (
     <div
-      className="flex flex-col bg-prize items-center h-screen w-full bg-cover bg-center bg-no-repeat cursor-pointer"
+      className="flex flex-col font-tt-travels bg-prize items-center h-screen w-full bg-cover bg-center bg-no-repeat cursor-pointer"
       onClick={handleClick}
     >
       <Image src={pluxeeLogo} alt="Logo Pluxee" className="mt-[600px]" />
