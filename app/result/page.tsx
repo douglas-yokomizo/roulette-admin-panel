@@ -17,6 +17,9 @@ const ResultPage = () => {
   const textColor =
     id === "7" || prize === "Cooler" ? "text-white" : "text-blue-950";
 
+  // Ajusta o nome do prêmio se for "Fone de Ouvido 2"
+  const displayPrize = prize === "Fone de Ouvido 2" ? "Fone de Ouvido" : prize;
+
   // Variants for list items animation
   const listItemVariants = {
     hidden: { opacity: 0, y: -20 },
@@ -56,7 +59,7 @@ const ResultPage = () => {
         animate={{ scale: 1 }}
         transition={{ duration: 0.5 }}
       >
-        Sinta o efeito <br /> Pluxee
+        Sinta o efeito <br />
       </motion.h1>
       <motion.ul
         className="text-4xl list-none justify-center flex flex-col items-center gap-6 mt-8 mb-16"
@@ -91,9 +94,9 @@ const ResultPage = () => {
               height: "450px",
             }}
           >
-            <Image src={icon} alt={prize} width={140} height={140} />
+            <Image src={icon} alt="" width={140} height={140} />
             <p className={`text-6xl mt-4 text-center ${textColor}`}>
-              <strong>{prize}</strong>
+              <strong>{displayPrize}</strong>
             </p>
           </div>
         </motion.div>
