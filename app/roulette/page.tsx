@@ -7,6 +7,7 @@ import seta from "../../public/seta.png";
 import pluxeLogo from "@/public/images/pluxeeLogo.png";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import leftArrow from "../../public/icons/left-arrow.png";
 
 interface Prize {
   id: number;
@@ -248,11 +249,24 @@ const RoulettePage = () => {
 
   return (
     <motion.div
-      className="h-screen flex flex-col items-center bg-roulette bg-cover bg-center bg-no-repeat"
+      className="h-screen relative flex flex-col items-center bg-roulette bg-cover bg-center bg-no-repeat"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
+      <motion.div
+        className="absolute w-10 left-6 top-6 hover:cursor-pointer"
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Image
+          src={leftArrow}
+          alt="Back Icon"
+          className=""
+          onClick={() => router.back()}
+        />
+      </motion.div>
       <motion.div
         initial={{ y: -100 }}
         animate={{ y: 0 }}
