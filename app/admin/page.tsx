@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabase/client";
 import Image from "next/image";
+import leftArrow from "../../public/icons/left-arrow.png";
+import { useRouter } from "next/navigation";
 
 interface Prize {
   id: number;
@@ -14,6 +16,7 @@ interface Prize {
 
 const AdminPage = () => {
   const [prizes, setPrizes] = useState<Prize[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchPrizes = async () => {
@@ -58,7 +61,13 @@ const AdminPage = () => {
   };
 
   return (
-    <div className="container mx-auto font-tt-travels p-6">
+    <div className="container mx-auto font-tt-travels p-6 relative">
+      <Image
+        src={leftArrow}
+        alt=""
+        className="absolute top-6 left-8 w-10 hover:cursor-pointer"
+        onClick={() => router.back()}
+      />
       <h1 className="text-3xl font-bold mb-6 text-center">Admin Panel</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {prizes.map((prize) => (
