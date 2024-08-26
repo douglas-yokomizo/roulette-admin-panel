@@ -45,16 +45,17 @@ const RoulettePage = () => {
 
   useEffect(() => {
     const fetchPrizes = async () => {
-      console.log("Fetching prizes from database...");
       const { data, error } = await supabase.from("prizes").select("*");
 
       if (error) {
         console.error("Error fetching prizes:", error);
       } else {
-        console.log("Prizes fetched:", data);
         setAllPrizes(sortPrizes(data));
-        setPrizes(sortPrizes(data.filter(prize => prize.isActive && prize.quantity > 0)));
-        console.log("Active prizes with quantity > 0:", sortPrizes(data.filter(prize => prize.isActive && prize.quantity > 0)));
+        setPrizes(
+          sortPrizes(
+            data.filter((prize) => prize.isActive && prize.quantity > 0)
+          )
+        );
       }
     };
 
@@ -70,7 +71,6 @@ const RoulettePage = () => {
     const angleStep = (2 * Math.PI) / allPrizes.length;
 
     const loadImages = async () => {
-      console.log("Loading images for prizes...");
       const images = await Promise.all(
         allPrizes.map(
           (prize) =>
@@ -82,8 +82,6 @@ const RoulettePage = () => {
             })
         )
       );
-
-      console.log("Images loaded successfully.");
 
       ctx.clearRect(0, 0, canvas?.width ?? 0, canvas?.height ?? 0);
       ctx.save();
@@ -119,7 +117,8 @@ const RoulettePage = () => {
           ctx.fillStyle = "#172554";
         }
 
-        const displayName = prize.name === "Fone de Ouvido 2" ? "Fone de Ouvido" : prize.name;
+        const displayName =
+          prize.name === "Fone de Ouvido 2" ? "Fone de Ouvido" : prize.name;
         const words = displayName.split(" ");
         const line1 = words.slice(0, Math.ceil(words.length / 2)).join(" ");
         const line2 = words.slice(Math.ceil(words.length / 2)).join(" ");
@@ -162,13 +161,14 @@ const RoulettePage = () => {
 
   const handleClick = () => {
     if (isSpinning || prizes.length === 0) {
-      console.warn("Cannot spin the roulette: Already spinning or no valid prizes available.");
+      console.warn(
+        "Cannot spin the roulette: Already spinning or no valid prizes available."
+      );
       return;
     }
 
     setIsSpinning(true);
     setSelectedPrize(null);
-    console.log("Starting the roulette spin...");
     const duration = 5000;
     const start = performance.now();
     const initialRotation = rotation;
@@ -177,9 +177,11 @@ const RoulettePage = () => {
     //  prêmio aleatório entre os prêmios disponíveis
     const chosenPrizeIndex = Math.floor(Math.random() * prizes.length);
     const chosenPrize = prizes[chosenPrizeIndex];
-    
+
     // índice do prêmio sorteado na lista `allPrizes`
-    const prizeIndexInAllPrizes = allPrizes.findIndex(prize => prize.id === chosenPrize.id);
+    const prizeIndexInAllPrizes = allPrizes.findIndex(
+      (prize) => prize.id === chosenPrize.id
+    );
     if (prizeIndexInAllPrizes === -1) {
       console.error("Prize not found in allPrizes array.");
       setIsSpinning(false);
@@ -188,25 +190,25 @@ const RoulettePage = () => {
 
     const anglePerPrize = 360 / allPrizes.length;
     const prizeAngleOffset = anglePerPrize / 2; // centralizando o prêmio na setinha
-    const targetAngle = prizeIndexInAllPrizes * anglePerPrize + prizeAngleOffset;
+    const targetAngle =
+      prizeIndexInAllPrizes * anglePerPrize + prizeAngleOffset;
 
-    // calculando a rot final para parar no premio sorteado 
-    const finalRotation = initialRotation + 360 * spinCount + (360 - targetAngle);
+    // calculando a rot final para parar no premio sorteado
+    const finalRotation =
+      initialRotation + 360 * spinCount + (360 - targetAngle);
 
     const animate = (time: number) => {
       const elapsed = time - start;
       if (elapsed < duration) {
         const progress = elapsed / duration;
         const easeOut = 1 - Math.pow(1 - progress, 3);
-        setRotation(initialRotation + easeOut * (finalRotation - initialRotation));
+        setRotation(
+          initialRotation + easeOut * (finalRotation - initialRotation)
+        );
         requestAnimationFrame(animate);
       } else {
         setRotation(finalRotation % 360);
         setIsSpinning(false);
-
-        console.log("Final rotation:", finalRotation);
-        console.log("Chosen prize index in allPrizes:", prizeIndexInAllPrizes);
-        console.log("Prize won:", chosenPrize.name);
 
         setSelectedPrize(chosenPrize);
         updatePrizeQuantity(chosenPrize.id);
@@ -215,7 +217,9 @@ const RoulettePage = () => {
         router.push(
           `/result?prize=${encodeURIComponent(
             chosenPrize.name
-          )}&icon=${encodeURIComponent(chosenPrize.icon)}&color=${encodeURIComponent(
+          )}&icon=${encodeURIComponent(
+            chosenPrize.icon
+          )}&color=${encodeURIComponent(
             chosenPrize.color
           )}&id=${encodeURIComponent(chosenPrize.id)}`
         );
@@ -226,7 +230,6 @@ const RoulettePage = () => {
   };
 
   const updatePrizeQuantity = async (prizeId: number) => {
-    console.log(`Updating quantity for prize ID: ${prizeId}`);
     const { data: prizeData, error: fetchError } = await supabase
       .from("prizes")
       .select("quantity")
@@ -239,7 +242,6 @@ const RoulettePage = () => {
     }
 
     const newQuantity = prizeData.quantity - 1;
-    console.log(`New quantity for prize ID ${prizeId}: ${newQuantity}`);
 
     const { data, error } = await supabase
       .from("prizes")
@@ -248,8 +250,6 @@ const RoulettePage = () => {
 
     if (error) {
       console.error("Error updating prize quantity:", error);
-    } else {
-      console.log("Prize quantity updated successfully:", data);
     }
   };
 

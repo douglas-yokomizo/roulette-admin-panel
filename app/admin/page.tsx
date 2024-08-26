@@ -80,7 +80,8 @@ const AdminPage = () => {
               alt={prize.name}
               width={200}
               height={200}
-              className="w-full p-4 h-32 object-contain mb-4 bg-gray-400 rounded-lg"
+              className="w-full p-4 h-32 object-contain mb-4 rounded-lg"
+              style={{ backgroundColor: prize.color }}
             />
             <h2 className="text-xl font-semibold mb-4 text-center">
               {prize.name}
