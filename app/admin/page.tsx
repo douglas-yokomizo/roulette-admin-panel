@@ -29,6 +29,12 @@ const AdminPage = () => {
     };
 
     fetchPrizes();
+
+    const intervalId = setInterval(fetchPrizes, 5000); // Atualiza a cada 5 segundos
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
   const updatePrize = async (prize: Prize) => {
@@ -60,6 +66,10 @@ const AdminPage = () => {
     );
   };
 
+  const sortPrizes = (prizes: Prize[]) => {
+    return prizes.sort((a, b) => a.id - b.id);
+  };
+
   return (
     <div className="container mx-auto font-tt-travels p-6 relative">
       <Image
@@ -70,18 +80,18 @@ const AdminPage = () => {
       />
       <h1 className="text-3xl font-bold mb-6 text-center">Admin Panel</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {prizes.map((prize) => (
+        {sortPrizes(prizes).map((prize) => (
           <div
             key={prize.id}
-            className="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300"
+            className="shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300"
           >
             <Image
               src={prize.icon}
+              style={{ backgroundColor: prize.color }}
               alt={prize.name}
               width={200}
               height={200}
               className="w-full p-4 h-32 object-contain mb-4 rounded-lg"
-              style={{ backgroundColor: prize.color }}
             />
             <h2 className="text-xl font-semibold mb-4 text-center">
               {prize.name}
