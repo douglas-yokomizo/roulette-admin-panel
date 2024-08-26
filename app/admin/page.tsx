@@ -45,8 +45,10 @@ const AdminPage = () => {
 
     if (error) {
       console.error("Error updating prize:", error);
+      return false;
     } else {
       console.log("Prize updated:", data);
+      return true;
     }
   };
 
@@ -58,12 +60,28 @@ const AdminPage = () => {
     );
   };
 
-  const handleIsActiveChange = (id: number, isActive: boolean) => {
+  const handleIsActiveChange = async (id: number, isActive: boolean) => {
+    // Atualiza o estado localmente
     setPrizes((prevPrizes) =>
       prevPrizes.map((prize) =>
         prize.id === id ? { ...prize, isActive } : prize
       )
     );
+
+    // Faz a chamada assíncrona para atualizar o prêmio
+    const success = await updatePrize({
+      ...prizes.find((prize) => prize.id === id)!,
+      isActive,
+    });
+
+    // Se houver um erro, reverte a mudança no estado
+    if (!success) {
+      setPrizes((prevPrizes) =>
+        prevPrizes.map((prize) =>
+          prize.id === id ? { ...prize, isActive: !isActive } : prize
+        )
+      );
+    }
   };
 
   const sortPrizes = (prizes: Prize[]) => {
@@ -122,7 +140,6 @@ const AdminPage = () => {
                   onChange={(e) =>
                     handleIsActiveChange(prize.id, e.target.checked)
                   }
-                  onBlur={() => updatePrize(prize)}
                   className="form-checkbox h-5 w-5 text-blue-600"
                 />
               </label>
