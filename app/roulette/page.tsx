@@ -109,23 +109,23 @@ const RoulettePage = () => {
         const img = images[index];
         ctx.drawImage(img, -30, -30, 60, 60);
 
-        if (prize.name === "Fone de Ouvido 2") {
-          ctx.fillStyle = "#FFF";
-        } else if (prize.name === "Cooler") {
-          ctx.fillStyle = "#FFF";
-        } else {
-          ctx.fillStyle = "#172554";
-        }
+        // if (prize.name === "Fone de Ouvido 2") {
+        //   ctx.fillStyle = "#FFF";
+        // } else if (prize.name === "Cooler") {
+        //   ctx.fillStyle = "#FFF";
+        // } else {
+        //   ctx.fillStyle = "#172554";
+        // }
 
-        const displayName =
-          prize.name === "Fone de Ouvido 2" ? "Fone de Ouvido" : prize.name;
-        const words = displayName.split(" ");
-        const line1 = words.slice(0, Math.ceil(words.length / 2)).join(" ");
-        const line2 = words.slice(Math.ceil(words.length / 2)).join(" ");
-        ctx.fillText(line1, 0, 50);
-        if (line2) {
-          ctx.fillText(line2, 0, 70);
-        }
+        // const displayName =
+        //   prize.name === "Fone de Ouvido 2" ? "Fone de Ouvido" : prize.name;
+        // const words = displayName.split(" ");
+        // const line1 = words.slice(0, Math.ceil(words.length / 2)).join(" ");
+        // const line2 = words.slice(Math.ceil(words.length / 2)).join(" ");
+        // ctx.fillText(line1, 0, 50);
+        // if (line2) {
+        //   ctx.fillText(line2, 0, 70);
+        // }
 
         ctx.restore();
       });

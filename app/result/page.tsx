@@ -53,14 +53,6 @@ const ResultPage = () => {
       >
         <Image src={pluxeeLogo} alt="Logo Pluxee" />
       </motion.div>
-      <motion.h1
-        className="text-6xl text-center mt-10"
-        initial={{ scale: 0.8 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        Sinta o efeito <br />
-      </motion.h1>
       <motion.ul
         className="text-4xl list-none justify-center flex flex-col items-center gap-6 mt-8 mb-16"
         initial="hidden"
