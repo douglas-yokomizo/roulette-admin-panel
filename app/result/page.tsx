@@ -87,9 +87,6 @@ const ResultPage = () => {
             }}
           >
             <Image src={icon} alt="" width={140} height={140} />
-            <p className={`text-6xl mt-4 text-center ${textColor}`}>
-              <strong>{displayPrize}</strong>
-            </p>
           </div>
         </motion.div>
       )}
